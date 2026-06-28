@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberVault // Media Repository</title>
+    <title>CyberVault // Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,60 +15,65 @@
             overflow-x: hidden;
         }
 
-        /* Sfondo a griglia stile React Bits (Dot/Grid Field) */
+        /* Sfondo a griglia minimale */
         .bg-grid {
-            background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(147, 51, 234, 0.04) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(147, 51, 234, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(147, 51, 234, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(147, 51, 234, 0.05) 1px, transparent 1px);
         }
 
-        /* Animazione dei fluttuanti luminosi sullo sfondo */
+        /* Effetti di luce fluttuanti */
         .glow-orb {
-            filter: blur(130px);
-            opacity: 0.35;
-            animation: floatGlow 10s ease-in-out infinite alternate;
+            filter: blur(140px);
+            opacity: 0.4;
+            animation: floatGlow 12s ease-in-out infinite alternate;
         }
 
         @keyframes floatGlow {
-            0% { transform: translateY(0px) scale(1); }
-            100% { transform: translateY(-40px) scale(1.15); }
+            0% { transform: translate(0px, 0px) scale(1); }
+            100% { transform: translate(-30px, 50px) scale(1.2); }
         }
 
-        /* EFFETTO REACT BITS: Spotlight Card (Il bordo si illumina seguendo il mouse) */
-        .spotlight-card {
+        /* Card della Galleria con effetto Glassmorphism */
+        .gallery-card {
             position: relative;
-            background: rgba(13, 8, 24, 0.75);
+            background: rgba(13, 8, 24, 0.6);
             border: 1px solid rgba(147, 51, 234, 0.15);
-            backdrop-filter: blur(16px);
-            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .spotlight-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(168, 85, 247, 0.35), transparent 80%);
-            z-index: -1;
-            border-radius: inherit;
+        .gallery-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(147, 51, 234, 0.4);
+        }
+
+        /* Overlay sfumato che compare al passaggio del mouse */
+        .card-overlay {
+            background: linear-gradient(to top, #05020c 0%, transparent 100%);
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.3s ease;
         }
 
-        .spotlight-card:hover::before {
+        .gallery-card:hover .card-overlay {
             opacity: 1;
         }
 
-        /* Stato di Drag & Drop attivo */
-        .dropzone.dragover {
-            border-color: #a855f7;
-            background: rgba(147, 51, 234, 0.1);
-            box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
-            transform: scale(0.99);
+        /* Zoom dell'immagine all'hover */
+        .gallery-img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gallery-card:hover .gallery-img {
+            transform: scale(1.08);
         }
 
-        /* Neon Text Shimmer Effect */
+        /* Testo brillante */
         .shiny-text {
-            background: linear-gradient(to right, #b55fe6, #ffffff, #a855f7);
+            background: linear-gradient(to right, #d8b4fe, #ffffff, #a855f7);
             background-size: 200% auto;
             color: transparent;
             -webkit-background-clip: text;
@@ -80,207 +85,149 @@
             to { background-position: 200% center; }
         }
 
-        /* Custom Scrollbar viola */
-        ::-webkit-scrollbar { width: 6px; }
+        /* Scrollbar stilizzata */
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #05020c; }
-        ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #6b21a8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen relative bg-grid antialiased">
 
-    <div class="glow-orb absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600 rounded-full pointer-events-none"></div>
-    <div class="glow-orb absolute bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-fuchsia-800 rounded-full pointer-events-none" style="animation-delay: -3s;"></div>
+    <div class="glow-orb absolute top-0 left-[-10%] w-[600px] h-[600px] bg-purple-700 rounded-full pointer-events-none z-0"></div>
+    <div class="glow-orb absolute bottom-0 right-[-10%] w-[500px] h-[500px] bg-fuchsia-900 rounded-full pointer-events-none z-0" style="animation-delay: -5s;"></div>
 
-    <div class="max-w-6xl mx-auto px-4 py-12 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 py-12 relative z-10">
         
-        <header class="flex justify-between items-center mb-16">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-fuchsia-500 flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.5)]">
-                    <i class="fa-solid fa-cloud-arrow-up text-white text-lg"></i>
+        <header class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 border-b border-purple-500/20 pb-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-900 flex items-center justify-center shadow-[0_0_25px_rgba(147,51,234,0.4)] border border-purple-500/30">
+                    <i class="fa-solid fa-layer-group text-white text-xl"></i>
                 </div>
-                <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">CYBER<span class="text-purple-500">VAULT</span></span>
+                <div>
+                    <h1 class="text-3xl font-black tracking-wider shiny-text uppercase">Archive</h1>
+                    <p class="text-xs text-purple-400 font-mono tracking-widest uppercase">Creative Repository</p>
+                </div>
             </div>
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-950/40 border border-purple-500/20 text-xs font-medium text-purple-300">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> SYSTEM ONLINE
+            
+            <div class="flex gap-4">
+                <button class="px-5 py-2 rounded-lg bg-purple-900/30 border border-purple-500/30 text-sm font-medium hover:bg-purple-800/40 transition-colors backdrop-blur-sm">
+                    <i class="fa-solid fa-filter mr-2 text-purple-400"></i> Filtra
+                </button>
             </div>
         </header>
 
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4 shiny-text">
-                Immerse Your Media
-            </h1>
-            <p class="text-gray-400 max-w-xl mx-auto text-sm md:text-base">
-                Carica immagini e video all'interno del tuo server sicuro. Trascina i file nell'interfaccia interattiva sotto.
-            </p>
-        </div>
-
-        <div class="max-w-3xl mx-auto mb-16">
-            <div id="card-upload" class="spotlight-card rounded-2xl p-8 md:p-12 text-center transition-all duration-300 shadow-2xl">
-                
-                <div id="dropzone" class="dropzone border-2 border-dashed border-purple-500/20 hover:border-purple-500/50 rounded-xl p-8 md:p-12 cursor-pointer transition-all duration-300 flex flex-col items-center justify-center group">
-                    <input type="file" id="file-input" multiple accept="image/*,video/*" class="hidden">
-                    
-                    <div class="w-16 h-16 rounded-full bg-purple-950/50 border border-purple-500/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-purple-500/80 transition-all duration-300 shadow-inner">
-                        <i class="fa-solid fa-arrow-up-from-bracket text-purple-400 text-xl group-hover:animate-bounce"></i>
-                    </div>
-                    
-                    <h3 class="text-lg font-semibold mb-2 text-white">Trascina qui i tuoi media</h3>
-                    <p class="text-xs text-gray-400 mb-6">oppure <span class="text-purple-400 font-medium underline group-hover:text-purple-300">sfoglia i file</span> dal dispositivo</p>
-                    
-                    <span class="text-[10px] tracking-widest text-purple-400/50 uppercase font-bold">PNG, JPG, MP4 fino a 50MB</span>
-                </div>
-
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[250px]">
             </div>
-        </div>
-
-        <div>
-            <div class="flex items-center justify-between mb-8 border-b border-purple-500/10 pb-4">
-                <h2 class="text-xl font-bold tracking-wide flex items-center gap-2">
-                    <i class="fa-solid fa-photo-film text-purple-500"></i> I tuoi file caricati
-                </h2>
-                <span id="file-count" class="text-xs bg-purple-950/60 text-purple-300 border border-purple-500/30 px-2.5 py-1 rounded-md font-mono">0 FILE</span>
-            </div>
-
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div id="empty-state" class="col-span-full py-16 text-center text-gray-500">
-                    <i class="fa-solid fa-folder-open text-4xl mb-3 opacity-40"></i>
-                    <p class="text-sm">Nessun file presente. Fai il primo upload!</p>
-                </div>
-            </div>
-        </div>
 
     </div>
 
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-purple-600/50 border border-white/20 text-white flex items-center justify-center transition-all">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        
+        <div class="max-w-5xl w-full flex flex-col items-center">
+            <img id="lightbox-img" src="" alt="Zoom" class="max-h-[80vh] object-contain rounded-lg shadow-[0_0_50px_rgba(147,51,234,0.3)] border border-purple-500/20">
+            <div class="mt-6 text-center">
+                <h3 id="lightbox-title" class="text-2xl font-bold text-white mb-1"></h3>
+                <p id="lightbox-category" class="text-purple-400 font-mono text-sm tracking-wider uppercase"></p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // 1. Gestione Spotlight Effect (Simulazione React Bits)
-        const uploadCard = document.getElementById('card-upload');
-        
-        const handleMouseMove = (e) => {
-            const rect = uploadCard.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            uploadCard.style.setProperty('--mouse-x', `${x}px`);
-            uploadCard.style.setProperty('--mouse-y', `${y}px`);
-        };
+        // QUI INSERISCI LE TUE IMMAGINI!
+        // Puoi usare link esterni (Imgur, Discord, ecc) o mettere i file fisici nella stessa cartella 
+        // e scrivere il nome del file (es. "render1.png") al posto del link di Unsplash.
+        const artworks = [
+            {
+                id: 1,
+                title: "Assetto Corsa - Server Setup",
+                category: "Sim-Racing // Config",
+                url: "https://images.unsplash.com/photo-1547394765-185e1e68f34e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                span: "col-span-1 sm:col-span-2 row-span-2" // Rende l'immagine più grande nella griglia
+            },
+            {
+                id: 2,
+                title: "D20 RPG - Sprite Design",
+                category: "Java Dev // Assets",
+                url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                span: "col-span-1 row-span-1"
+            },
+            {
+                id: 3,
+                title: "FL Studio - Nuova Base",
+                category: "Beatmaking // Workspace",
+                url: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                span: "col-span-1 row-span-1"
+            },
+            {
+                id: 4,
+                title: "BeamNG - Test Export",
+                category: "Simulation // Render",
+                url: "https://images.unsplash.com/photo-1619717651717-3860bb4a9193?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                span: "col-span-1 sm:col-span-2 row-span-1"
+            },
+            {
+                id: 5,
+                title: "Hardware Setup",
+                category: "DIY // Modding",
+                url: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                span: "col-span-1 row-span-1"
+            }
+        ];
 
-        if (uploadCard) {
-            uploadCard.addEventListener('mousemove', handleMouseMove);
-        }
-
-        // 2. Drag and Drop Logic + Gestione Input
-        const dropzone = document.getElementById('dropzone');
-        const fileInput = document.getElementById('file-input');
         const galleryGrid = document.getElementById('gallery-grid');
-        const emptyState = document.getElementById('empty-state');
-        const fileCountBadge = document.getElementById('file-count');
-        
-        let loadedFiles = [];
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxCategory = document.getElementById('lightbox-category');
 
-        // Click per aprire esplora risorse
-        dropzone.addEventListener('click', () => fileInput.click());
-
-        // Effetti grafici al passaggio del file trascinato
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropzone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropzone.classList.add('dragover');
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropzone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropzone.classList.remove('dragover');
-            }, false);
-        });
-
-        // Drop del file effettivo
-        dropzone.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles(files);
-        });
-
-        // Selezione classica tramite input file
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
-
-        // Funzione per processare e mostrare i file sul frontend
-        function handleFiles(files) {
-            if (files.length > 0) {
-                emptyState.classList.add('hidden');
-            }
-
-            Array.from(files).forEach(file => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                
-                reader.onloadend = () => {
-                    const fileObj = {
-                        id: Date.now() + Math.random().toString(36).substr(2, 9),
-                        name: file.name,
-                        type: file.type,
-                        src: reader.result
-                    };
-                    loadedFiles.push(fileObj);
-                    renderCard(fileObj);
-                    updateBadge();
-                };
-            });
-        }
-
-        // Genera la singola card multimediale ad effetto glassmorphism
-        function renderCard(file) {
+        // Genera la griglia
+        artworks.forEach(art => {
             const card = document.createElement('div');
-            card.className = "spotlight-card rounded-xl overflow-hidden group shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/40";
-            card.id = file.id;
-
-            // Setup dell'anteprima differenziato per Video o Foto
-            let mediaPreview = '';
-            if (file.type.startsWith('video/')) {
-                mediaPreview = `<video src="${file.src}" class="w-full h-48 object-cover" controls></video>`;
-            } else {
-                mediaPreview = `<img src="${file.src}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" alt="${file.name}">`;
-            }
-
+            // Applica le classi per definire la grandezza nella griglia, se specificata
+            card.className = `gallery-card group ${art.span || 'col-span-1 row-span-1'}`;
+            
             card.innerHTML = `
-                <div class="relative overflow-hidden">
-                    ${mediaPreview}
-                    <button onclick="deleteCard('${file.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-black/70 border border-red-500/30 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 backdrop-blur-sm shadow-md">
-                        <i class="fa-solid fa-trash-can text-xs"></i>
-                    </button>
-                </div>
-                <div class="p-4 border-t border-purple-500/10">
-                    <p class="text-xs font-semibold truncate text-gray-200">${file.name}</p>
-                    <p class="text-[10px] text-purple-400 font-mono tracking-wider mt-1 uppercase">${file.type.split('/')[1] || 'Unknown'}</p>
+                <img src="${art.url}" alt="${art.title}" class="gallery-img w-full h-full object-cover absolute inset-0">
+                <div class="card-overlay absolute inset-0 flex flex-col justify-end p-6">
+                    <span class="text-xs font-mono text-purple-400 mb-1 tracking-widest uppercase">${art.category}</span>
+                    <h3 class="text-xl font-bold text-white">${art.title}</h3>
                 </div>
             `;
 
-            // Aggancia anche l'effetto mousemove sulla nuova card dinamica
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            // Apre il Lightbox al click
+            card.addEventListener('click', () => {
+                lightboxImg.src = art.url;
+                lightboxTitle.innerText = art.title;
+                lightboxCategory.innerText = art.category;
+                
+                lightbox.classList.remove('hidden');
+                // Piccolo delay per permettere la transizione di opacità
+                setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden'; // Blocca lo scroll della pagina
             });
 
             galleryGrid.appendChild(card);
-        }
+        });
 
-        // Elimina file caricato
-        window.deleteCard = function(id) {
-            document.getElementById(id).remove();
-            loadedFiles = loadedFiles.filter(item => item.id !== id);
-            if (loadedFiles.length === 0) {
-                emptyState.classList.remove('hidden');
-            }
-            updateBadge();
+        // Chiude il Lightbox
+        window.closeLightbox = function() {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Riattiva lo scroll
+            }, 300);
         };
 
-        function updateBadge() {
-            fileCountBadge.innerText = `${loadedFiles.length} ${loadedFiles.length === 1 ? 'FILE' : 'FILE'}`;
-        }
+        // Chiudi il lightbox premendo ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                closeLightbox();
+            }
+        });
     </script>
 </body>
 </html>
